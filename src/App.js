@@ -1,10 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import { useState } from 'react';
 
 function App() {
-  const [toDos, setToDos] = useState([])
-  const [toDo,setToDo] = useState("")
+  const [toDos, setToDos] = useState([]);
+  const [toDo, setToDo] = useState('');
+  
+
+  const addTask = () => {
+    if (toDo.trim() !== '') {
+      const isExistingTask = toDos.some((task) => task.text.toLowerCase() === toDo.toLowerCase());
+      if (!isExistingTask) {
+        const newTask = { id: Date.now(), text: toDo, status: false };
+        setToDos([...toDos, newTask]);
+        setToDo('');
+      } else {
+        alert('Task already exists!');
+      }
+    } else {
+      alert('Please enter a valid task!');
+    }
+  };
+  
+  const deleteTask = (id) => {
+    const updatedTasks = toDos.filter((task) => task.id !== id);
+    setToDos(updatedTasks);
+  };
+
+
+  const toggleTaskStatus = (id) => {
+    const updatedTasks = toDos.map((task) => {
+      if (task.id === id) {
+        return { ...task, status: !task.status };
+      }
+      return task;
+    });
+    setToDos(updatedTasks);
+  };
 
   return (
     <div className="app">
@@ -13,39 +44,36 @@ function App() {
       </div>
       <div className="subHeading">
         <br />
-        <h2>Hey, it's Sunday  </h2>
+        <h3 >Hey, it's Sunday. You have <span> {toDos.length}</span> tasks to complete!</h3>
       </div>
       <div className="input">
-        <input value={toDo} onChange={(e) => setToDo(e.target.value)} type="text" placeholder="🖊️ Add item..." />
-        <i onClick={()=>setToDos([...toDos,{id:Date.now(),text: toDo,status:false}])} className="fas fa-plus"></i>
+        <input
+          value={toDo}
+          onChange={(e) => setToDo(e.target.value)}
+          type="text"
+          placeholder="🖊️ Add item..."
+        />
+        <i onClick={addTask} className="fas fa-plus"></i>
       </div>
       <div className="todos">
-        {
-          toDos.map((obj)=>{
-            return ( <div className="todo">
+        {toDos.map((task) => (
+          <div className="todo" key={task.id}>
             <div className="left">
-              <input onChange={(e)=>{
-                console.log(e.target.value)
-                console.log(obj)
-                setToDos(toDos.filter(obj2=>{
-                  if (obj2.id===obj.id){
-                    obj2.status=e.target.checked
-                  }
-                  return obj2
-                }))
-              }} value={obj.status} type="checkbox" name="" id="" />
-              <p>{obj.text}</p>
-              <h1>Active task</h1>
+              <input
+                onChange={() => toggleTaskStatus(task.id)}
+                type="checkbox"
+                checked={task.status}
+              />
+              <p>{task.text}</p>
+              {task.status && <h1>Active task</h1>}
             </div>
             <div className="right">
-              <i className="fas fa-times"></i>
+              <i onClick={() => deleteTask(task.id)} className="fas fa-times"></i>
             </div>
           </div>
-          ) })
-          
-         }
-         
+        ))}
       </div>
+     
     </div>
   );
 }

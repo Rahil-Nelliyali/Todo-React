@@ -19,8 +19,11 @@ body {
 }
 
 .app h1,
-h2 {
+h3 {
   color: white;
+}
+.app span{
+  color:yellow;
 }
 
 .app .input {
@@ -31,7 +34,7 @@ h2 {
 
 .app .input {
   margin-top: 0.8em;
-  width: 20em;
+  width: 22em;
   height: 2em;
   background-color: white;
   display: flex;
@@ -86,3 +89,49 @@ h2 {
   color: grey;
 }
 
+.confirmation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirmationContent {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  text-align: center;
+}
+
+.confirmationContent h3 {
+  margin-top: 0;
+}
+
+.confirmationContent p {
+  margin-bottom: 20px;
+}
+
+.confirmationActions {
+  display: flex;
+  justify-content: center;
+}
+
+.confirmationActions button {
+  margin: 0 10px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.confirmationActions button:last-child {
+  background-color: #ccc;
+}
